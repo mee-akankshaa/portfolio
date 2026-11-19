@@ -203,3 +203,15 @@ a{color:inherit;text-decoration:none}
 .stage-card{max-width:300px;margin-left:auto;border-radius:20px}
 .stage-cap{font-size:.65rem;left:12px;top:9px}
 @media(max-width:800px){.tl-item{min-height:150px}.stage-card{max-width:190px;margin:0 auto}#education.sec{padding-top:50px}}
+
+/* tighter education: image vertically centred against the timeline */
+#education.sec{padding-top:60px;padding-bottom:0}
+.tl{align-items:center;gap:24px}
+.tl-item{min-height:118px;padding:6px 0}
+.tl-item h3{font-size:clamp(1.35rem,2.4vw,1.9rem);margin:2px 0 4px}
+.tl-item small{font-size:.66rem}
+.tl-item p{font-size:.88rem}
+.gr{margin-top:6px;font-size:.72rem;padding:2px 10px}
+.tl-stage{position:relative;top:auto;align-self:center}
+.stage-card{max-width:270px}
+@media(max-width:800px){.tl{align-items:start}.tl-stage{position:sticky;top:64px;align-self:auto}.tl-item{min-height:100px}.stage-card{max-width:180px}}

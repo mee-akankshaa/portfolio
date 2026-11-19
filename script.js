@@ -241,7 +241,7 @@
     var it=document.createElement('div');it.className='tl-item';
     it.innerHTML='<div class="tl-node"><span></span></div><small></small><h3></h3><p></p><em class="gr"></em>';
     it.querySelector('small').textContent=e.tag;it.querySelector('h3').textContent=e.title;it.querySelector('p').textContent=e.sub;var g=it.querySelector('.gr');if(e.grade)g.textContent=e.grade;else g.remove();
-    it.addEventListener('click',function(){it.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})});
+    it.addEventListener('click',function(){setStage(items.indexOf(it))});it.addEventListener('mouseenter',function(){setStage(items.indexOf(it))});
     list.appendChild(it);items.push(it);
     var sk=document.createElement('div');sk.className='sk';sk.innerHTML=sketch(e.stage);card.appendChild(sk);sks.push(sk);
   });
