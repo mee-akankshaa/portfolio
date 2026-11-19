@@ -246,3 +246,54 @@ a{color:inherit;text-decoration:none}
 .big{top:30.5%}
 .hero-girl{bottom:17vh}
 @media(max-width:800px){.big{top:30%}.hero-girl{bottom:17vh}}
+
+/* Contact: floating circle on the right + form page with an eye-tracking girl */
+.talk{position:fixed;right:22px;bottom:24px;z-index:45;width:98px;height:98px;padding:0;border:2px solid #111;border-radius:50%;background:#f4f4f2;cursor:pointer;
+ box-shadow:0 0 0 3px rgba(255,255,255,.16),0 14px 30px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.2,1.5,.4,1),box-shadow .3s}
+.talk:hover,.talk:focus-visible{transform:scale(1.08);box-shadow:0 0 0 4px #fff,0 16px 34px rgba(0,0,0,.55);outline:0}
+.talk-art{position:absolute;inset:0;border-radius:50%;overflow:hidden;display:block}
+.talk-art svg{display:block;width:100%;height:100%}
+.talk-tip{position:absolute;right:calc(100% + 16px);top:50%;transform:translate(10px,-50%) rotate(-3deg);background:#fff;color:#111;font-weight:700;font-size:.95rem;white-space:nowrap;
+ padding:9px 16px;border:2px solid #111;border-radius:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .35s cubic-bezier(.2,1.6,.4,1)}
+.talk-tip::after{content:"";position:absolute;right:-8px;top:50%;width:12px;height:12px;margin-top:-6px;background:#fff;border-top:2px solid #111;border-right:2px solid #111;transform:rotate(45deg)}
+.talk:hover .talk-tip,.talk:focus-visible .talk-tip{opacity:1;transform:translate(0,-50%) rotate(-3deg)}
+.talk-art .hd3{transform-box:fill-box}
+
+.cm{position:fixed;inset:0;z-index:100;display:flex;overflow-y:auto;padding:4vh 16px 40px;overscroll-behavior:contain}
+.cm[hidden]{display:none}
+.cm-back{position:fixed;inset:0;background:rgba(10,10,10,.84);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s}
+.cm.open .cm-back{opacity:1}
+.cm-wrap{position:relative;width:min(500px,100%);margin:auto;opacity:0;transform:translateY(26px);transition:opacity .35s ease,transform .45s cubic-bezier(.2,1.2,.4,1)}
+.cm.open .cm-wrap{opacity:1;transform:none}
+.cm-peek{position:relative;z-index:1;width:220px;margin:0 auto -30px;pointer-events:none}
+.cm-peek svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(2px 0 0 #f4f4f2) drop-shadow(-2px 0 0 #f4f4f2) drop-shadow(0 -2px 0 #f4f4f2)}
+.pk-head{transition:transform .12s linear}
+.pk-eye{transform-box:fill-box;transform-origin:center;transition:transform .09s ease-in}
+.pk-eye.blink{transform:scaleY(.08)}
+.cm-card{position:relative;z-index:2;background:#f4f4f2;color:#111;border:2px solid #111;border-radius:22px;padding:28px 26px 26px;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+.cm-card h2{font-size:1.9rem;letter-spacing:-.03em;line-height:1.05}
+.cm-sub{color:#555;font-size:.9rem;margin:6px 0 18px}
+.cm-x{position:absolute;right:14px;top:12px;width:34px;height:34px;border:2px solid #111;border-radius:50%;background:#fff;color:#111;font-size:1.3rem;line-height:1;cursor:pointer;transition:.2s}
+.cm-x:hover{background:#111;color:#fff}
+.cm-row{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.cm-f{display:block;margin-bottom:13px}
+.cm-f span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px}
+.cm-f input,.cm-f textarea{width:100%;font:inherit;font-size:16px;color:#111;background:#fff;border:2px solid #111;border-radius:10px;padding:10px 12px;outline:0;transition:border-color .2s,box-shadow .2s}
+.cm-f textarea{resize:vertical;min-height:96px}
+.cm-f input:focus,.cm-f textarea:focus{border-color:#e11d2e;box-shadow:0 0 0 3px rgba(225,29,46,.2)}
+.cm-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.cm-go{display:block;width:100%;margin-top:6px;padding:13px 18px;background:#111;color:#fff;border:2px solid #111;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;transition:background .2s,transform .2s}
+.cm-go:hover{background:#e11d2e;border-color:#e11d2e}.cm-go:active{transform:scale(.98)}
+.cm-go:disabled{opacity:.6;cursor:progress}
+.cm-msg{min-height:1.2em;margin-top:10px;font-size:.85rem;color:#b3121f}
+.cm-msg a{text-decoration:underline}
+.cm-ok{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px;background:#f4f4f2;border-radius:20px;text-align:center}
+.cm-ok[hidden]{display:none}
+.cm-ok h3{font-size:2rem;letter-spacing:-.03em}.cm-ok p{color:#444}
+@media(max-width:560px){
+ .talk{width:76px;height:76px;right:14px;bottom:16px}
+ .cm-row{grid-template-columns:1fr}
+ .cm-peek{width:190px}
+ .cm-card{padding:24px 18px 20px}
+}
+@media(prefers-reduced-motion:reduce){.pk-head,.pk-eye{transition:none!important}}

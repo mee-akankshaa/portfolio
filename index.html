@@ -7,7 +7,7 @@
 <meta name="description" content="Portfolio of Akanksha Dubey, an AI-assisted full-stack developer from Delhi, India.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=1795070433">
+<link rel="stylesheet" href="style.css?v=1795085231">
 </head>
 <body>
 <div class="progress" id="progress"></div>
@@ -114,7 +114,44 @@
   </div>
 </footer>
 
-<script src="projects.js?v=1795070433"></script>
-<script src="script.js?v=1795070433"></script>
+<!-- Contact: floating circle + form page -->
+<button class="talk" id="talk" type="button" aria-label="Let's talk - open the contact form" aria-haspopup="dialog">
+  <span class="talk-tip" aria-hidden="true">Let's talk</span>
+  <span class="talk-art" id="talkArt" aria-hidden="true"></span>
+</button>
+
+<div class="cm" id="cm" role="dialog" aria-modal="true" aria-labelledby="cmTitle" hidden>
+  <div class="cm-back" data-close></div>
+  <div class="cm-wrap">
+    <div class="cm-peek" id="cmPeek" aria-hidden="true"></div>
+    <form class="cm-card" id="cmForm" action="https://formsubmit.co/mee.akankshaa@gmail.com" method="POST">
+      <button type="button" class="cm-x" data-close aria-label="Close form">&times;</button>
+      <h2 id="cmTitle">Let's talk</h2>
+      <p class="cm-sub">Share your details and I'll get back to you.</p>
+      <div class="cm-row">
+        <label class="cm-f"><span>Name *</span><input name="name" type="text" autocomplete="name" required maxlength="80"></label>
+        <label class="cm-f"><span>Phone *</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[+0-9 \(\)\-]{7,20}" title="Enter a valid phone number" maxlength="20"></label>
+      </div>
+      <div class="cm-row">
+        <label class="cm-f"><span>Email *</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+        <label class="cm-f"><span>City</span><input name="city" type="text" autocomplete="address-level2" maxlength="60"></label>
+      </div>
+      <label class="cm-f"><span>Additional note</span><textarea name="message" rows="4" maxlength="1500"></textarea></label>
+      <input type="text" name="_honey" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="submit" class="cm-go">Send message</button>
+      <p class="cm-msg" id="cmMsg" role="status" aria-live="polite"></p>
+      <div class="cm-ok" id="cmOk" hidden>
+        <h3>Thank you!</h3>
+        <p id="cmOkTxt">Your message has been sent.</p>
+        <button type="button" class="cm-go" data-close>Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="projects.js?v=1795085231"></script>
+<script src="script.js?v=1795085231"></script>
 </body>
 </html>

@@ -27,6 +27,7 @@ Black-and-white, editorial-style portfolio of **Akanksha Dubey**, an AI-assisted
 - Scroll-linked intro, timeline sketch that changes per stage, and a scroll progress bar
 - Scroll-reveal animations and animated counters
 - Interactive footer text (letters lift and darken near the cursor, click to pop)
+- "Let's talk" circle (bottom right) opens a contact form; a girl peeks over the form and her eyes follow the cursor. Submissions are emailed via FormSubmit
 - Fully responsive layout
 - Respects `prefers-reduced-motion` for users who want less animation
 

@@ -295,3 +295,124 @@
     else if(away&&scrollY<20){away=false;host.classList.remove('sitting');setTimeout(function(){host.classList.add('sitting')},2000)}
   },{passive:true});
 })();
+
+/* Contact: floating "Let's talk" circle (red top, jeans, laptop, headphones) + form page.
+   The girl peeks over the form and her eyes follow the mouse / the field being typed in. */
+(function(){
+  var btn=document.getElementById('talk'),art=document.getElementById('talkArt'),cm=document.getElementById('cm'),
+      form=document.getElementById('cmForm'),peek=document.getElementById('cmPeek'),
+      msg=document.getElementById('cmMsg'),ok=document.getElementById('cmOk'),okTxt=document.getElementById('cmOkTxt');
+  if(!btn||!art||!cm||!form||!peek||!window.EDU_G)return;
+  var K='#111',R='#e11d2e',J='#3f6bb0',TO='mee.akankshaa@gmail.com';
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1) circle button art: the seated laptop girl, jeans legs with stitch lines, red headphones
+  var HP='<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+K+'" stroke-width="9"/><path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+R+'" stroke-width="4.5"/>'+
+    '<rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="'+R+'"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="'+R+'"/>';
+  var STITCH='<path d="M80 190 L80 214 M34 206 C48 194 64 194 74 202 M86 202 C96 194 112 194 126 206 M42 215 C56 221 68 221 76 216 M84 216 C92 221 104 221 118 215" fill="none" stroke="#dbe7ff" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="butt"/>';
+  var sit=window.EDU_G[3]()
+    .replace('22 208Z" fill="'+K+'"/>','22 208Z" fill="'+J+'"/>'+STITCH)
+    .replace('</g><text class="cd c1"',HP+'</g><text class="cd c1"');
+  art.innerHTML='<svg viewBox="-40 -6 240 240" role="img" aria-hidden="true"><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g class="fig s3">'+sit+'</g></g></svg>';
+
+  // 2) peeking head above the form: hair, headphones, eyes only (the card hides the rest)
+  var EYES=[[78,76],[122,76]];
+  function eye(c){return '<g class="pk-eye"><ellipse cx="'+c[0]+'" cy="'+c[1]+'" rx="12" ry="13" fill="#fff"/><circle class="pp" cx="'+c[0]+'" cy="'+c[1]+'" r="5.6" fill="'+K+'" stroke="none"/></g>'}
+  peek.innerHTML='<svg viewBox="0 0 200 130" role="img" aria-hidden="true"><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g class="pk-head">'+
+    '<path d="M44 76 C32 -4 168 -4 156 76 L168 140 L32 140Z" fill="'+K+'"/>'+
+    '<circle cx="100" cy="82" r="50" fill="#fff"/>'+
+    '<path d="M50 70 C50 14 150 14 150 70 C132 42 68 42 50 70Z" fill="'+K+'"/>'+
+    '<path d="M64 62 Q78 54 92 62 M108 62 Q122 54 136 62" fill="none" stroke-width="3.2"/>'+
+    EYES.map(eye).join('')+
+    '<path d="M42 78 C34 -2 166 -2 158 78" fill="none" stroke="'+K+'" stroke-width="10"/><path d="M42 78 C34 -2 166 -2 158 78" fill="none" stroke="'+R+'" stroke-width="5"/>'+
+    '<rect x="30" y="52" width="17" height="34" rx="8.5" fill="'+R+'"/><rect x="153" y="52" width="17" height="34" rx="8.5" fill="'+R+'"/>'+
+    '</g></g></svg>';
+  var pup=peek.querySelectorAll('.pp'),eyeG=peek.querySelectorAll('.pk-eye'),headG=peek.querySelector('.pk-head');
+
+  // 3) eye tracking
+  var tx=innerWidth/2,ty=innerHeight/2,cur=[[0,0],[0,0]],hh=[0,0],raf=0;
+  function clampN(v,a,b){return Math.min(b,Math.max(a,v))}
+  function step(){
+    raf=0;
+    var r=peek.getBoundingClientRect(),s=r.width/200||1,k=reduce?1:.28,moving=false;
+    for(var i=0;i<2;i++){
+      var ex=r.left+EYES[i][0]*s,ey=r.top+EYES[i][1]*s,dx=tx-ex,dy=ty-ey,d=Math.hypot(dx,dy)||1,m=Math.min(5.2,d/(10*s));
+      var gx=dx/d*m,gy=dy/d*m;
+      cur[i][0]+=(gx-cur[i][0])*k;cur[i][1]+=(gy-cur[i][1])*k;
+      if(Math.abs(gx-cur[i][0])>.04||Math.abs(gy-cur[i][1])>.04)moving=true;
+      pup[i].setAttribute('transform','translate('+cur[i][0].toFixed(2)+' '+cur[i][1].toFixed(2)+')');
+    }
+    var hx=clampN((tx-(r.left+100*s))/(innerWidth*.5),-1,1)*5,hy=clampN((ty-(r.top+80*s))/(innerHeight*.5),-1,1)*3;
+    hh[0]+=(hx-hh[0])*k;hh[1]+=(hy-hh[1])*k;
+    headG.setAttribute('transform','translate('+hh[0].toFixed(2)+' '+hh[1].toFixed(2)+') rotate('+(hh[0]*.7).toFixed(2)+' 100 130)');
+    if(moving||Math.abs(hx-hh[0])>.04||Math.abs(hy-hh[1])>.04)raf=requestAnimationFrame(step);
+  }
+  function aim(x,y){tx=x;ty=y;if(!raf&&cm.classList.contains('open'))raf=requestAnimationFrame(step)}
+  addEventListener('pointermove',function(e){aim(e.clientX,e.clientY)},{passive:true});
+  // while typing, look at the end of what is being typed in the active field
+  function lookAtField(e){
+    var t=e.target;if(!t||!t.matches||!t.matches('input,textarea'))return;
+    var b=t.getBoundingClientRect(),len=(t.value||'').length;
+    aim(b.left+Math.min(b.width-12,18+len*8.5),b.top+(t.tagName==='TEXTAREA'?20:b.height/2));
+  }
+  form.addEventListener('focusin',lookAtField);form.addEventListener('input',lookAtField);
+  // blink now and then
+  (function blink(){
+    setTimeout(function(){
+      if(cm.classList.contains('open')&&!reduce){eyeG.forEach(function(g){g.classList.add('blink')});setTimeout(function(){eyeG.forEach(function(g){g.classList.remove('blink')})},120)}
+      blink();
+    },2400+Math.random()*2600);
+  })();
+
+  // 4) open / close the form page
+  var last=null,hideT=0;
+  function open(){
+    last=document.activeElement;clearTimeout(hideT);
+    cm.hidden=false;document.body.style.overflow='hidden';
+    ok.hidden=true;msg.textContent='';
+    requestAnimationFrame(function(){
+      cm.classList.add('open');
+      var f=form.querySelector('input[name=name]');if(f)f.focus({preventScroll:true});
+      var c=form.getBoundingClientRect();aim(c.left+c.width/2,c.top+c.height*.35);
+    });
+  }
+  function close(){
+    cm.classList.remove('open');document.body.style.overflow='';
+    hideT=setTimeout(function(){if(!cm.classList.contains('open'))cm.hidden=true},reduce?0:320);
+    if(last&&last.focus)last.focus();
+  }
+  btn.addEventListener('click',open);
+  cm.addEventListener('click',function(e){if(e.target.closest('[data-close]'))close()});
+  addEventListener('keydown',function(e){
+    if(cm.hidden)return;
+    if(e.key==='Escape'){close();return}
+    if(e.key==='Tab'){
+      var f=[].filter.call(cm.querySelectorAll('button,input,textarea,a[href]'),function(n){return !n.disabled&&n.tabIndex>=0&&n.offsetParent!==null});
+      if(!f.length)return;var a=f[0],z=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}
+      else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+    }
+  });
+
+  // 5) send: FormSubmit (free, static-site friendly) emails the filled data to TO; mailto as fallback
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(form.querySelector('[name=_honey]').value)return;            // bot
+    if(!form.checkValidity()){form.reportValidity();return}
+    var data={};new FormData(form).forEach(function(v,k){data[k]=String(v).trim()});
+    data._subject='Portfolio enquiry from '+data.name;
+    var go=form.querySelector('button[type=submit]');go.disabled=true;go.textContent='Sending...';msg.textContent='';
+    function fail(){
+      var body='Name: '+data.name+'\nPhone: '+data.phone+'\nEmail: '+data.email+'\nCity: '+(data.city||'-')+'\nNote: '+(data.message||'-');
+      msg.innerHTML='Could not send right now. <a href="mailto:'+TO+'?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body)+'">Send it from your email app</a> instead.';
+    }
+    fetch('https://formsubmit.co/ajax/'+TO,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().then(function(j){return r.ok&&String(j.success)==='true'})})
+      .then(function(good){
+        if(good){okTxt.textContent='Thanks '+data.name.split(' ')[0]+', your details have been sent. I will get back to you soon.';ok.hidden=false;form.reset()}
+        else fail();
+      })
+      .catch(fail)
+      .then(function(){go.disabled=false;go.textContent='Send message'});
+  });
+})();
