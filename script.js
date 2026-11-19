@@ -201,8 +201,8 @@
       '<ellipse cx="38" cy="216" rx="14" ry="7" fill="'+W+'"/><ellipse cx="122" cy="216" rx="14" ry="7" fill="'+W+'"/>'+
       '<path d="M52 92 Q80 80 108 92 L112 190 Q80 198 48 190Z" fill="'+R+'"/>'+
       arm('M54 98 L44 140 L56 170')+arm('M106 98 L116 140 L104 170')+
-      '<rect x="48" y="126" width="64" height="44" rx="4" fill="'+W+'"/><circle cx="80" cy="148" r="5" fill="'+K+'"/><rect x="40" y="170" width="80" height="6" rx="3" fill="'+K+'"/>'+
-      '<circle class="ty1" cx="58" cy="172" r="7" fill="'+W+'"/><circle class="ty2" cx="102" cy="172" r="7" fill="'+W+'"/>'+
+      '<rect x="48" y="126" width="64" height="44" rx="4" fill="'+W+'"/><rect x="40" y="170" width="80" height="6" rx="3" fill="'+K+'"/>'+
+      '<rect class="ty1" x="48" y="168" width="16" height="8" rx="4" fill="'+W+'"/><rect class="ty2" x="96" y="168" width="16" height="8" rx="4" fill="'+W+'"/>'+
       '<g class="hd3"><path d="M54 50 C48 12 112 12 106 50 L112 100 L98 74 C92 56 68 56 62 74 L48 100Z" fill="'+K+'"/>'+
       '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+face(false)+'</g>'+
       '<text class="cd c1" x="118" y="70" font-size="15" font-weight="700" stroke="none" fill="'+K+'">&lt;/&gt;</text>'+
@@ -276,7 +276,7 @@
     '<rect x="58" y="150" width="21" height="74" rx="9" fill="'+K+'"/><rect x="81" y="150" width="21" height="74" rx="9" fill="'+K+'"/>'+
     '<ellipse cx="68" cy="228" rx="14" ry="6.5" fill="'+W+'"/><ellipse cx="92" cy="228" rx="14" ry="6.5" fill="'+W+'"/>'+
     '<path d="M50 86 Q80 74 110 86 L114 158 Q80 166 46 158Z" fill="'+R+'"/>'+
-    arm('M54 92 L46 132 L47 152')+'<circle cx="47" cy="156" r="6.5" fill="'+W+'"/>'+
+    arm('M54 92 L44 124 L56 146')+'<rect x="28" y="140" width="58" height="11" rx="4" fill="'+W+'" transform="rotate(-5 57 145)"/><path d="M34 145 L80 143" stroke-width="1.5" fill="none"/><circle cx="58" cy="147" r="6.5" fill="'+W+'"/>'+
     '<g class="wave">'+arm('M106 92 L130 64 L138 38')+'<circle cx="139" cy="32" r="7" fill="'+W+'"/></g>'+
     '<g class="ghead"><path d="M54 50 C48 10 112 10 106 50 L112 98 L98 72 C92 54 68 54 62 72 L48 98Z" fill="'+K+'"/>'+
     '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+

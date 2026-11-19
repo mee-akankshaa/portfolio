@@ -241,3 +241,8 @@ a{color:inherit;text-decoration:none}
 .hero-girl .wave{transform-box:fill-box;transform-origin:0% 100%;animation:hi .45s ease-in-out infinite alternate}
 @keyframes hi{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
 @media(max-width:800px){.big{top:32%}.hero-girl{bottom:14vh;height:28vh}}
+
+/* hero a little higher */
+.big{top:30.5%}
+.hero-girl{bottom:17vh}
+@media(max-width:800px){.big{top:30%}.hero-girl{bottom:17vh}}
