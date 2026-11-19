@@ -413,7 +413,7 @@
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json().then(function(j){return r.ok&&String(j.success)==='true'})})
       .then(function(good){
-        if(good){okTxt.textContent='Thanks '+data.name.split(' ')[0]+', your details have been sent. I will get back to you soon.';ok.hidden=false;form.reset()}
+        if(good){okTxt.textContent='Your message has been sent successfully. Akanksha will get back to you soon.';ok.hidden=false;form.reset()}
         else fail();
       })
       .catch(fail)
