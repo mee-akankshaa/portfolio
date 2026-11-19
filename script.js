@@ -151,3 +151,96 @@
   }
   if(reduce){document.querySelectorAll('.walker').forEach(function(w,i){w.style.animation='none';w.style.left=(8+i*(84/N))+'%'})}
 })();
+
+/* Education timeline: alternating sides, animated sketch for each stage */
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tl=document.getElementById('tl'), fill=document.getElementById('tlFill');
+  if(!tl)return;
+  var EDU=[
+    {stage:1,tag:'Stage 01',title:'Class 10',sub:'Secondary school'},
+    {stage:2,tag:'Stage 02',title:'Class 12',sub:'Senior secondary school'},
+    {stage:3,tag:'Stage 03',title:'Diploma',sub:'PHP-based Full-Stack Developer Diploma'},
+    {stage:4,tag:'Stage 04',title:'BCA',sub:'Manipal University, currently in 5th semester'}
+  ];
+  var R='#e11d2e', K='#111', W='#fff';
+  function arm(d){return '<path d="'+d+'" stroke="'+K+'" stroke-width="15" fill="none"/><path d="'+d+'" stroke="'+R+'" stroke-width="10.5" fill="none"/>'}
+  function face(open){
+    return '<circle cx="72" cy="50" r="2.2" fill="'+K+'" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="'+K+'" stroke="none"/>'+
+      (open?'<path d="M72 58 Q80 72 88 58Z" fill="'+K+'"/>':'<path d="M73 59 Q80 65 87 59" fill="none" stroke-width="2.5"/>');
+  }
+  var G={
+    1:function(){return ''+
+      '<g class="bob1">'+
+      '<rect x="36" y="84" width="88" height="86" rx="14" fill="'+K+'"/>'+
+      '<g class="lg l1"><rect x="58" y="150" width="20" height="66" rx="9" fill="'+K+'"/><ellipse cx="66" cy="221" rx="15" ry="7" fill="'+W+'"/></g>'+
+      '<g class="lg l2"><rect x="82" y="150" width="20" height="66" rx="9" fill="'+K+'"/><ellipse cx="94" cy="221" rx="15" ry="7" fill="'+W+'"/></g>'+
+      '<path d="M50 88 Q80 76 110 88 L114 160 Q80 168 46 160Z" fill="'+R+'"/>'+
+      '<path d="M64 82 L60 142 M96 82 L100 142" stroke="'+K+'" stroke-width="7" fill="none"/>'+
+      '<g class="ar a1"><rect x="34" y="88" width="17" height="60" rx="8.5" fill="'+R+'"/><circle cx="42.5" cy="151" r="7.5" fill="'+W+'"/></g>'+
+      '<g class="ar a2"><rect x="109" y="88" width="17" height="60" rx="8.5" fill="'+R+'"/><circle cx="117.5" cy="151" r="7.5" fill="'+W+'"/></g>'+
+      '<circle cx="50" cy="52" r="12" fill="'+K+'"/><circle cx="110" cy="52" r="12" fill="'+K+'"/>'+
+      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M57 46 C58 22 102 22 103 46 C92 34 68 34 57 46Z" fill="'+K+'"/>'+
+      '<circle cx="44" cy="44" r="4.5" fill="'+R+'"/><circle cx="116" cy="44" r="4.5" fill="'+R+'"/>'+face(false)+
+      '</g>'},
+    2:function(){return ''+
+      '<g class="jump">'+
+      '<rect x="58" y="150" width="20" height="66" rx="9" fill="'+K+'" transform="rotate(7 68 150)"/><ellipse cx="60" cy="221" rx="15" ry="7" fill="'+W+'"/>'+
+      '<rect x="82" y="150" width="20" height="66" rx="9" fill="'+K+'" transform="rotate(-7 92 150)"/><ellipse cx="102" cy="221" rx="15" ry="7" fill="'+W+'"/>'+
+      '<path d="M50 88 Q80 76 110 88 L114 160 Q80 168 46 160Z" fill="'+R+'"/>'+
+      '<g class="wv1">'+arm('M54 94 L30 52')+'<circle cx="28" cy="46" r="7.5" fill="'+W+'"/></g>'+
+      '<g class="wv2">'+arm('M106 94 L130 52')+'<circle cx="131" cy="46" r="7.5" fill="'+W+'"/>'+
+        '<path d="M131 40 C128 24 150 24 148 40" fill="none" stroke="'+K+'" stroke-width="4"/><rect x="122" y="2" width="34" height="38" rx="9" fill="'+K+'" transform="translate(0 4)"/></g>'+
+      '<path d="M57 46 C52 14 108 14 103 46Z" fill="'+K+'"/><circle cx="106" cy="28" r="10" fill="'+K+'"/><circle cx="108" cy="22" r="4" fill="'+R+'"/>'+
+      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M57 44 C60 22 100 22 103 44 C92 34 68 34 57 44Z" fill="'+K+'"/>'+face(true)+
+      '</g>'},
+    3:function(){return ''+
+      '<g class="nod3">'+
+      '<path d="M22 208 C22 176 68 170 80 188 C92 170 138 176 138 208 C138 224 98 226 80 216 C62 226 22 224 22 208Z" fill="'+K+'"/>'+
+      '<ellipse cx="38" cy="216" rx="14" ry="7" fill="'+W+'"/><ellipse cx="122" cy="216" rx="14" ry="7" fill="'+W+'"/>'+
+      '<path d="M52 92 Q80 80 108 92 L112 190 Q80 198 48 190Z" fill="'+R+'"/>'+
+      arm('M54 98 L44 140 L56 170')+arm('M106 98 L116 140 L104 170')+
+      '<rect x="48" y="126" width="64" height="44" rx="4" fill="'+W+'"/><circle cx="80" cy="148" r="5" fill="'+K+'"/><rect x="40" y="170" width="80" height="6" rx="3" fill="'+K+'"/>'+
+      '<circle class="ty1" cx="58" cy="172" r="7" fill="'+W+'"/><circle class="ty2" cx="102" cy="172" r="7" fill="'+W+'"/>'+
+      '<g class="hd3"><path d="M54 50 C48 12 112 12 106 50 L112 100 L98 74 C92 56 68 56 62 74 L48 100Z" fill="'+K+'"/>'+
+      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+face(false)+'</g>'+
+      '<text class="cd c1" x="118" y="70" font-size="15" font-weight="700" stroke="none" fill="'+K+'">&lt;/&gt;</text>'+
+      '<text class="cd c2" x="14" y="80" font-size="15" font-weight="700" stroke="none" fill="'+K+'">{ }</text>'+
+      '</g>'},
+    4:function(){return ''+
+      '<ellipse cx="62" cy="230" rx="14" ry="6" fill="'+W+'"/><ellipse cx="98" cy="230" rx="14" ry="6" fill="'+W+'"/>'+
+      '<path d="M44 92 Q80 78 116 92 L134 228 L26 228Z" fill="'+K+'"/>'+
+      '<path d="M64 86 L80 118 L96 86Z" fill="'+W+'"/><path d="M72 90 L80 106 L88 90Z" fill="'+R+'"/>'+
+      '<g class="wv1"><path d="M48 98 L34 152" stroke="'+K+'" stroke-width="20" stroke-linecap="round" fill="none"/><circle cx="33" cy="158" r="7.5" fill="'+W+'"/></g>'+
+      '<g class="wv2"><path d="M112 98 L134 62" stroke="'+K+'" stroke-width="20" stroke-linecap="round" fill="none"/><circle cx="136" cy="56" r="7.5" fill="'+W+'"/>'+
+        '<rect x="122" y="26" width="38" height="14" rx="5" fill="'+W+'" transform="rotate(-32 141 33)"/><path d="M136 28 L146 40" stroke="'+R+'" stroke-width="4"/></g>'+
+      '<path d="M54 50 C48 12 112 12 106 50 L112 100 L98 74 C92 56 68 56 62 74 L48 100Z" fill="'+K+'"/>'+
+      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 46 C60 26 100 26 102 46 C92 38 68 38 58 46Z" fill="'+K+'"/>'+face(true)+
+      '<g class="cap"><path d="M58 24 L58 38 Q80 50 102 38 L102 24Z" fill="'+K+'"/><polygon points="80,2 134,20 80,38 26,20" fill="'+K+'"/><path d="M80 20 L124 24 L124 50" fill="none" stroke="'+R+'" stroke-width="3"/><circle cx="124" cy="54" r="5" fill="'+R+'"/></g>'+
+      '<circle class="cf f1" cx="30" cy="40" r="4" fill="'+R+'" stroke="none"/><rect class="cf f2" x="140" y="90" width="8" height="5" fill="'+K+'" stroke="none"/><circle class="cf f3" cx="20" cy="110" r="3" fill="'+K+'" stroke="none"/>'}
+  };
+  var SC={1:.58,2:.68,3:.8,4:.9};
+  function sketch(stage){
+    var s=SC[stage], extra='';
+    if(stage===1)extra='<g class="school"><rect x="196" y="164" width="42" height="64" fill="#fff"/><path d="M190 164 L217 142 L244 164Z" fill="#fff"/><rect x="209" y="196" width="16" height="32" fill="#111"/><text x="198" y="182" font-size="8" font-weight="700" stroke="none" fill="#111">SCHOOL</text></g>';
+    if(stage===2)extra='<g class="conf"><circle cx="40" cy="60" r="4" fill="#e11d2e" stroke="none"/><rect x="212" y="70" width="8" height="5" fill="#111" stroke="none"/><circle cx="224" cy="120" r="3.5" fill="#e11d2e" stroke="none"/><rect x="28" y="120" width="7" height="5" fill="#111" stroke="none"/></g>';
+    return '<svg viewBox="0 0 260 250" role="img" aria-hidden="true"><g stroke="#111" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
+      '<line class="road" x1="0" y1="232" x2="260" y2="232" stroke-dasharray="14 12" stroke-width="3"/>'+extra+
+      '<ellipse class="shadow" cx="130" cy="232" rx="'+(46*s+10)+'" ry="5" fill="rgba(0,0,0,.12)" stroke="none"/>'+
+      '<g class="fig s'+stage+'" transform="translate(130 228) scale('+s+') translate(-80 -228)">'+G[stage]()+'</g></g></svg>';
+  }
+  EDU.forEach(function(e,i){
+    var side=i%2===0?'l':'r';
+    var it=document.createElement('div');it.className='tl-item '+side+' reveal';
+    it.innerHTML='<div class="tl-sketch">'+sketch(e.stage)+'</div><div class="tl-node"><span></span></div><div class="tl-text"><small></small><h3></h3><p></p></div>';
+    it.querySelector('small').textContent=e.tag;it.querySelector('h3').textContent=e.title;it.querySelector('p').textContent=e.sub;
+    tl.appendChild(it);
+  });
+  // Re-observe newly added reveal items
+  var io2=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io2.unobserve(x.target)}})},{threshold:.2});
+  tl.querySelectorAll('.reveal').forEach(function(el){io2.observe(el)});
+  // Line fills with scroll
+  function upd(){var r=tl.getBoundingClientRect(),p=(innerHeight*.55-r.top)/r.height;p=Math.max(0,Math.min(1,p));fill.style.height=(p*100)+'%';
+    tl.querySelectorAll('.tl-item').forEach(function(it){var n=it.querySelector('.tl-node').getBoundingClientRect();it.classList.toggle('lit',n.top<innerHeight*.6)})}
+  addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+})();

@@ -141,3 +141,47 @@ a{color:inherit;text-decoration:none}
 .pinfo .pl{display:flex;gap:10px;margin-top:16px}
 .pinfo .pl a{padding:8px 16px;border:1px solid #fff;border-radius:8px;font-size:.85rem;font-weight:500;transition:.2s}
 .pinfo .pl a:hover{background:#fff;color:#111}
+
+/* Education timeline */
+.tl{position:relative;display:grid;gap:70px;padding:10px 0 20px}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--line)}
+.tl-fill{width:100%;height:0;background:#fff;transition:height .15s linear}
+.tl-item{display:grid;grid-template-columns:1fr 64px 1fr;align-items:center;position:relative}
+.tl-sketch{background:#f4f4f2;border:2px solid #111;border-radius:22px;padding:6px;box-shadow:0 12px 30px rgba(0,0,0,.35);overflow:hidden}
+.tl-sketch svg{display:block;width:100%;height:auto;max-height:260px}
+.tl-node{display:grid;place-items:center;z-index:2}
+.tl-node span{width:20px;height:20px;border-radius:50%;background:var(--bg);border:3px solid #555;transition:.4s}
+.tl-item.lit .tl-node span{background:#fff;border-color:#fff;box-shadow:0 0 0 8px rgba(255,255,255,.12)}
+.tl-text small{color:var(--mut);letter-spacing:.12em;text-transform:uppercase;font-size:.72rem}
+.tl-text h3{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:6px 0}
+.tl-text p{color:#cfcfcb;max-width:360px}
+.tl-item.l .tl-sketch{grid-column:1;grid-row:1}.tl-item.l .tl-node{grid-column:2}.tl-item.l .tl-text{grid-column:3;grid-row:1}
+.tl-item.r .tl-text{grid-column:1;grid-row:1;text-align:right}.tl-item.r .tl-text p{margin-left:auto}
+.tl-item.r .tl-node{grid-column:2;grid-row:1}.tl-item.r .tl-sketch{grid-column:3;grid-row:1}
+@media(max-width:800px){
+ .tl-line{left:18px}.tl-item{grid-template-columns:36px 1fr;gap:0 14px}
+ .tl-item.l .tl-node,.tl-item.r .tl-node{grid-column:1;grid-row:1/3;align-self:start;margin-top:8px}
+ .tl-item.l .tl-sketch,.tl-item.r .tl-sketch{grid-column:2;grid-row:1}
+ .tl-item.l .tl-text,.tl-item.r .tl-text{grid-column:2;grid-row:2;text-align:left;margin-top:14px}.tl-item.r .tl-text p{margin-left:0}
+}
+/* sketch animations */
+.fig .lg,.fig .ar,.fig .wv1,.fig .wv2,.fig .cap,.fig .hd3,.fig .ty1,.fig .ty2,.fig .cd,.fig .cf{transform-box:fill-box}
+.road{animation:road 1s linear infinite}@keyframes road{to{stroke-dashoffset:-26}}
+.s1 .l1{transform-origin:50% 8%;animation:sw 0.7s ease-in-out infinite alternate}.s1 .l2{transform-origin:50% 8%;animation:sw 0.7s ease-in-out infinite alternate-reverse}
+.s1 .a1{transform-origin:50% 6%;animation:sw 0.7s ease-in-out infinite alternate-reverse}.s1 .a2{transform-origin:50% 6%;animation:sw 0.7s ease-in-out infinite alternate}
+.bob1{animation:bb .35s ease-in-out infinite alternate}@keyframes bb{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+.s2 .jump{animation:jmp 1s cubic-bezier(.3,0,.4,1) infinite}@keyframes jmp{0%,100%{transform:translateY(0)}45%{transform:translateY(-34px)}}
+.s2 .wv1{transform-origin:80% 90%;animation:wave .5s ease-in-out infinite alternate}.s2 .wv2{transform-origin:20% 90%;animation:wave .5s ease-in-out infinite alternate-reverse}
+@keyframes wave{from{transform:rotate(-10deg)}to{transform:rotate(10deg)}}
+.conf circle,.conf rect{animation:cf 1.6s ease-in-out infinite;transform-box:fill-box}
+@keyframes cf{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(90deg)}}
+.s3 .nod3{animation:bb .6s ease-in-out infinite alternate}.s3 .hd3{transform-origin:50% 55%;animation:nod 1.4s ease-in-out infinite alternate}
+@keyframes nod{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.s3 .ty1{animation:tp .22s ease-in-out infinite alternate}.s3 .ty2{animation:tp .22s ease-in-out infinite alternate-reverse}
+@keyframes tp{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+.cd{opacity:0;animation:note 2.4s ease-out infinite}.cd.c2{animation-delay:1.2s}
+.s4 .wv1{transform-origin:50% 5%;animation:wave .7s ease-in-out infinite alternate}.s4 .wv2{transform-origin:30% 90%;animation:wave .9s ease-in-out infinite alternate-reverse}
+.s4 .cap{transform-origin:50% 60%;animation:toss 4s ease-in-out infinite}
+@keyframes toss{0%,55%{transform:translateY(0) rotate(0)}70%{transform:translateY(-30px) rotate(25deg)}82%{transform:translateY(-38px) rotate(-18deg)}100%{transform:translateY(0) rotate(0)}}
+.cf{animation:cf 1.8s ease-in-out infinite}.cf.f2{animation-delay:.5s}.cf.f3{animation-delay:1s}
+@media(prefers-reduced-motion:reduce){.tl-fill{transition:none}}
