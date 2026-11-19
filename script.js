@@ -28,7 +28,7 @@
   var list=$('#projList'), P=window.PROJECTS||[];
   list.style.setProperty('--n',P.length);
   var cards=[];
-  function setActive(c){cards.forEach(function(x){x.classList.toggle('active',x===c)})}
+  function setActive(c){var ai=cards.indexOf(c);cards.forEach(function(x,j){x.classList.toggle('active',x===c);x.style.setProperty('--shift',(ai>=0&&j>ai)?'240px':'0px')})}
   P.forEach(function(p,i){
     var el=document.createElement('article');el.className='pcard t'+(i%3);el.tabIndex=0;
     el.style.setProperty('--i',i);el.style.setProperty('--lift',Math.min(i*72,112)+'px');
@@ -53,7 +53,6 @@
     el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(el.classList.contains('active')?null:el)}});
   });
   list.addEventListener('mouseleave',function(){setActive(null)});
-  if(cards.length)cards[0].classList.add('active');
 
   // Reveal + counters
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
@@ -136,5 +135,21 @@
    '<text class="note n2" x="30" y="34" font-size="14" stroke="none" fill="#111">♫</text>'+
    '</g></svg>';
   wrap.appendChild(girl);
+
+  // Interactive background name: letters rise and darken near the cursor, pop on click
+  var giant=document.querySelector('.giant'), letters=[];
+  giant.textContent='';
+  'AKANKSHA.'.split('').forEach(function(ch){var sp=document.createElement('span');sp.className='gl';sp.textContent=ch;giant.appendChild(sp);letters.push(sp)});
+  if(!reduce){
+    wrap.addEventListener('pointermove',function(e){
+      letters.forEach(function(l){
+        var r=l.getBoundingClientRect(), dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2), t=Math.max(0,1-Math.hypot(dx,dy)/300);
+        l.style.transform='translateY('+(-t*46)+'px) scale('+(1+t*.1)+') rotate('+(dx/-40*t)+'deg)';
+        var g=Math.round(236-t*220);l.style.color='rgb('+g+','+g+','+g+')';
+      });
+    });
+    wrap.addEventListener('pointerleave',function(){letters.forEach(function(l){l.style.transform='';l.style.color=''})});
+    letters.forEach(function(l){l.addEventListener('click',function(){l.classList.remove('pop');void l.offsetWidth;l.classList.add('pop')})});
+  }
   if(reduce){document.querySelectorAll('.walker').forEach(function(w,i){w.style.animation='none';w.style.left=(8+i*(84/N))+'%'})}
 })();
