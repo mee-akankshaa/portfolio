@@ -127,8 +127,8 @@
      '<path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="#111"/>'+
      '<circle cx="72" cy="50" r="2.2" fill="#111" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="#111" stroke="none"/>'+
      '<path d="M73 59 Q80 65 87 59" fill="none" stroke-width="2.5"/>'+
-     '<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke-width="5"/>'+                       /* headphone band */
-     '<rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="#111"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="#111"/>'+
+     '<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="#111" stroke-width="9"/><path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="#e11d2e" stroke-width="4.5"/>'+   /* headphone band */
+     '<rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="#e11d2e"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="#e11d2e"/>'+
    '</g></g>'+
    '<text class="note n1" x="118" y="30" font-size="16" stroke="none" fill="#111">♪</text>'+
    '<text class="note n2" x="30" y="34" font-size="14" stroke="none" fill="#111">♫</text>'+
@@ -165,6 +165,8 @@
     {stage:4,tag:'Stage 04',title:'BCA',sub:'Manipal University, currently in 5th semester'}
   ];
   var R='#e11d2e', K='#111', W='#fff';
+  var HPR='<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+K+'" stroke-width="9"/><path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+R+'" stroke-width="4.5"/><rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="'+R+'"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="'+R+'"/>';
+  window.EDU_HP=HPR;
   function arm(d){return '<path d="'+d+'" stroke="'+K+'" stroke-width="15" fill="none"/><path d="'+d+'" stroke="'+R+'" stroke-width="10.5" fill="none"/>'}
   function face(open){
     return '<circle cx="72" cy="50" r="2.2" fill="'+K+'" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="'+K+'" stroke="none"/>'+
@@ -204,7 +206,7 @@
       '<rect x="48" y="126" width="64" height="44" rx="4" fill="'+W+'"/><rect x="40" y="170" width="80" height="6" rx="3" fill="'+K+'"/>'+
       '<rect class="ty1" x="48" y="168" width="16" height="8" rx="4" fill="'+W+'"/><rect class="ty2" x="96" y="168" width="16" height="8" rx="4" fill="'+W+'"/>'+
       '<g class="hd3"><path d="M54 50 C48 12 112 12 106 50 L112 100 L98 74 C92 56 68 56 62 74 L48 100Z" fill="'+K+'"/>'+
-      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+face(false)+'</g>'+
+      '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+face(false)+HPR+'</g>'+
       '<text class="cd c1" x="118" y="70" font-size="15" font-weight="700" stroke="none" fill="'+K+'">&lt;/&gt;</text>'+
       '<text class="cd c2" x="14" y="80" font-size="15" font-weight="700" stroke="none" fill="'+K+'">{ }</text>'+
       '</g>'},
@@ -270,8 +272,8 @@
   if(!host||!window.EDU_G)return;
   var K='#111',W='#fff',R='#e11d2e';
   function arm(d){return '<path d="'+d+'" stroke="'+K+'" stroke-width="15" fill="none"/><path d="'+d+'" stroke="'+R+'" stroke-width="10.5" fill="none"/>'}
-  var HP='<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke-width="5"/><rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="'+K+'"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="'+K+'"/>';
-  var sit=window.EDU_G[3]().replace('</g><text class="cd c1"',HP+'</g><text class="cd c1"');
+  var HP=window.EDU_HP;
+  var sit=window.EDU_G[3]();
   var stand='<g class="gbody">'+
     '<rect x="58" y="150" width="21" height="74" rx="9" fill="'+K+'"/><rect x="81" y="150" width="21" height="74" rx="9" fill="'+K+'"/>'+
     '<ellipse cx="68" cy="228" rx="14" ry="6.5" fill="'+W+'"/><ellipse cx="92" cy="228" rx="14" ry="6.5" fill="'+W+'"/>'+
@@ -307,22 +309,23 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // 1) circle button art: the seated laptop girl, jeans legs with stitch lines, red headphones
-  var HP='<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+K+'" stroke-width="9"/><path d="M55 46 C52 8 108 8 105 46" fill="none" stroke="'+R+'" stroke-width="4.5"/>'+
-    '<rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="'+R+'"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="'+R+'"/>';
   var STITCH='<path d="M80 190 L80 214 M34 206 C48 194 64 194 74 202 M86 202 C96 194 112 194 126 206 M42 215 C56 221 68 221 76 216 M84 216 C92 221 104 221 118 215" fill="none" stroke="#dbe7ff" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="butt"/>';
   var sit=window.EDU_G[3]()
-    .replace('22 208Z" fill="'+K+'"/>','22 208Z" fill="'+J+'"/>'+STITCH)
-    .replace('</g><text class="cd c1"',HP+'</g><text class="cd c1"');
+    .replace('22 208Z" fill="'+K+'"/>','22 208Z" fill="'+J+'"/>'+STITCH);
   art.innerHTML='<svg viewBox="-40 -6 240 240" role="img" aria-hidden="true"><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g class="fig s3">'+sit+'</g></g></svg>';
 
   // 2) peeking head above the form: hair, headphones, eyes only (the card hides the rest)
   var EYES=[[78,76],[122,76]];
-  function eye(c){return '<g class="pk-eye"><ellipse cx="'+c[0]+'" cy="'+c[1]+'" rx="12" ry="13" fill="#fff"/><circle class="pp" cx="'+c[0]+'" cy="'+c[1]+'" r="5.6" fill="'+K+'" stroke="none"/></g>'}
+  function eye(c){var x=c[0],y=c[1];
+    return '<g class="pk-eye"><ellipse cx="'+x+'" cy="'+y+'" rx="9.5" ry="8.2" fill="#fff" stroke-width="1.8"/>'+
+      '<g class="pp"><circle cx="'+x+'" cy="'+y+'" r="5.2" fill="#2b1d1d" stroke="none"/><circle cx="'+(x+1.6)+'" cy="'+(y-1.8)+'" r="1.5" fill="#fff" stroke="none"/></g>'+
+      '<path d="M'+(x-10.5)+' '+(y-1)+' Q'+x+' '+(y-13)+' '+(x+10.5)+' '+(y-1)+'" fill="none" stroke-width="2.4"/>'+
+      '<path d="M'+(x+(x<100?-10.5:10.5))+' '+(y-1)+' l'+(x<100?-3.5:3.5)+' -3" fill="none" stroke-width="1.8"/></g>'}
   peek.innerHTML='<svg viewBox="0 0 200 130" role="img" aria-hidden="true"><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g class="pk-head">'+
     '<path d="M44 76 C32 -4 168 -4 156 76 L168 140 L32 140Z" fill="'+K+'"/>'+
     '<circle cx="100" cy="82" r="50" fill="#fff"/>'+
     '<path d="M50 70 C50 14 150 14 150 70 C132 42 68 42 50 70Z" fill="'+K+'"/>'+
-    '<path d="M64 62 Q78 54 92 62 M108 62 Q122 54 136 62" fill="none" stroke-width="3.2"/>'+
+    '<path d="M66 59 Q78 52 90 57 M110 57 Q122 52 134 59" fill="none" stroke-width="1.8" opacity=".75"/>'+
     EYES.map(eye).join('')+
     '<path d="M42 78 C34 -2 166 -2 158 78" fill="none" stroke="'+K+'" stroke-width="10"/><path d="M42 78 C34 -2 166 -2 158 78" fill="none" stroke="'+R+'" stroke-width="5"/>'+
     '<rect x="30" y="52" width="17" height="34" rx="8.5" fill="'+R+'"/><rect x="153" y="52" width="17" height="34" rx="8.5" fill="'+R+'"/>'+
@@ -336,7 +339,7 @@
     raf=0;
     var r=peek.getBoundingClientRect(),s=r.width/200||1,k=reduce?1:.28,moving=false;
     for(var i=0;i<2;i++){
-      var ex=r.left+EYES[i][0]*s,ey=r.top+EYES[i][1]*s,dx=tx-ex,dy=ty-ey,d=Math.hypot(dx,dy)||1,m=Math.min(5.2,d/(10*s));
+      var ex=r.left+EYES[i][0]*s,ey=r.top+EYES[i][1]*s,dx=tx-ex,dy=ty-ey,d=Math.hypot(dx,dy)||1,m=Math.min(3.4,d/(12*s));
       var gx=dx/d*m,gy=dy/d*m;
       cur[i][0]+=(gx-cur[i][0])*k;cur[i][1]+=(gy-cur[i][1])*k;
       if(Math.abs(gx-cur[i][0])>.04||Math.abs(gy-cur[i][1])>.04)moving=true;
