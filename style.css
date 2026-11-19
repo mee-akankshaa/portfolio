@@ -1,0 +1,50 @@
+:root{--bg:#0b0d14;--fg:#e8eaf2;--muted:#9aa0b4;--a:#7c5cff;--b:#00d4ff;--card:#141826}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:-2}
+.glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:-1;
+ background:radial-gradient(circle,rgba(124,92,255,.22),transparent 65%);transform:translate(-50%,-50%);left:50%;top:50%}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--a),var(--b));z-index:20}
+.nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 6vw;
+ backdrop-filter:blur(10px);background:rgba(11,13,20,.55);z-index:10}
+.logo{font-weight:800;font-size:1.5rem;color:var(--fg);text-decoration:none}.logo span{color:var(--b)}
+.nav nav a{color:var(--muted);text-decoration:none;margin-left:22px;transition:color .25s}
+.nav nav a:hover{color:var(--fg)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 6vw}
+.eyebrow{color:var(--b);letter-spacing:.2em;text-transform:uppercase;font-size:.85rem}
+h1{font-size:clamp(3rem,10vw,7rem);line-height:1.05;background:linear-gradient(90deg,var(--a),var(--b),var(--a));
+ background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.typing{font-size:clamp(1.2rem,3vw,1.8rem);margin-top:8px;min-height:2.2rem}
+.caret{display:inline-block;width:2px;height:1.2em;background:var(--b);margin-left:3px;vertical-align:middle;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lead{color:var(--muted);max-width:520px;margin-top:12px}
+.cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 26px;border-radius:999px;border:1px solid var(--a);color:var(--fg);text-decoration:none;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(124,92,255,.35)}
+.btn.primary{background:linear-gradient(90deg,var(--a),var(--b));border-color:transparent}
+.scroll-hint{position:absolute;bottom:28px;left:50%;width:22px;height:36px;border:2px solid var(--muted);border-radius:12px}
+.scroll-hint::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:var(--b);animation:drop 1.6s infinite}
+@keyframes drop{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+.section{padding:110px 6vw;max-width:1100px;margin:auto}
+h2{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:24px}
+h2::after{content:"";display:block;width:60px;height:4px;margin-top:8px;border-radius:2px;background:linear-gradient(90deg,var(--a),var(--b))}
+.wide{max-width:680px;color:var(--muted)}
+.stats{display:flex;gap:20px;flex-wrap:wrap;margin-top:34px}
+.stat{flex:1;min-width:140px;background:var(--card);padding:22px;border-radius:16px;text-align:center}
+.stat b{font-size:2.4rem;color:var(--b);display:block}.stat span{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chip{padding:10px 20px;border-radius:999px;background:var(--card);border:1px solid #232842;transition:transform .25s,border-color .25s}
+.chip:hover{transform:translateY(-4px) scale(1.05);border-color:var(--b)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card{background:var(--card);padding:26px;border-radius:18px;border:1px solid #232842;transition:transform .15s ease-out,border-color .3s;transform-style:preserve-3d}
+.card:hover{border-color:var(--a)}
+.card h3{margin-bottom:8px}.card p{color:var(--muted)}.card small{display:block;margin:12px 0;color:var(--b)}
+.link{color:var(--fg);text-decoration:none;font-weight:600}
+.contact{text-align:center}.contact h2::after{margin-inline:auto}.contact p{color:var(--muted);margin-bottom:24px}
+footer{text-align:center;padding:30px;color:var(--muted);font-size:.9rem}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:600px){.nav nav a{margin-left:12px;font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
