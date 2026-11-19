@@ -229,18 +229,35 @@
       '<ellipse class="shadow" cx="130" cy="232" rx="'+(46*s+10)+'" ry="5" fill="rgba(0,0,0,.12)" stroke="none"/>'+
       '<g class="fig s'+stage+'" transform="translate(130 228) scale('+s+') translate(-80 -228)">'+G[stage]()+'</g></g></svg>';
   }
+  // Layout: timeline list on the LEFT, one sticky sketch panel on the RIGHT that changes with the active stage
+  var line=tl.querySelector('.tl-line');
+  var list=document.createElement('div');list.className='tl-list';list.appendChild(line);
+  var stage=document.createElement('div');stage.className='tl-stage';
+  var card=document.createElement('div');card.className='stage-card';
+  var cap=document.createElement('div');cap.className='stage-cap';card.appendChild(cap);
+  stage.appendChild(card);tl.append(list,stage);
+  var items=[],sks=[];
   EDU.forEach(function(e,i){
-    var side=i%2===0?'l':'r';
-    var it=document.createElement('div');it.className='tl-item '+side+' reveal';
-    it.innerHTML='<div class="tl-sketch">'+sketch(e.stage)+'</div><div class="tl-node"><span></span></div><div class="tl-text"><small></small><h3></h3><p></p></div>';
+    var it=document.createElement('div');it.className='tl-item';
+    it.innerHTML='<div class="tl-node"><span></span></div><small></small><h3></h3><p></p>';
     it.querySelector('small').textContent=e.tag;it.querySelector('h3').textContent=e.title;it.querySelector('p').textContent=e.sub;
-    tl.appendChild(it);
+    it.addEventListener('click',function(){it.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})});
+    list.appendChild(it);items.push(it);
+    var sk=document.createElement('div');sk.className='sk';sk.innerHTML=sketch(e.stage);card.appendChild(sk);sks.push(sk);
   });
-  // Re-observe newly added reveal items
-  var io2=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io2.unobserve(x.target)}})},{threshold:.2});
-  tl.querySelectorAll('.reveal').forEach(function(el){io2.observe(el)});
-  // Line fills with scroll
-  function upd(){var r=tl.getBoundingClientRect(),p=(innerHeight*.55-r.top)/r.height;p=Math.max(0,Math.min(1,p));fill.style.height=(p*100)+'%';
-    tl.querySelectorAll('.tl-item').forEach(function(it){var n=it.querySelector('.tl-node').getBoundingClientRect();it.classList.toggle('lit',n.top<innerHeight*.6)})}
+  var cur=-1;
+  function setStage(i){
+    if(i===cur)return;cur=i;
+    items.forEach(function(it,k){it.classList.toggle('active',k===i);it.classList.toggle('done',k<i)});
+    sks.forEach(function(sk,k){sk.classList.toggle('on',k===i);sk.classList.toggle('past',k<i)});
+    cap.textContent=EDU[i].tag+'  ·  '+EDU[i].title;
+  }
+  function upd(){
+    var r=tl.getBoundingClientRect(),lr=list.getBoundingClientRect();
+    var mid=innerHeight*.5, p=(mid-lr.top)/lr.height;p=Math.max(0,Math.min(1,p));fill.style.height=(p*100)+'%';
+    var best=0,bd=1e9;
+    items.forEach(function(it,k){var b=it.getBoundingClientRect(),d=Math.abs(b.top+b.height/2-mid);if(d<bd){bd=d;best=k}});
+    setStage(best);
+  }
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
 })();
