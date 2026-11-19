@@ -24,35 +24,33 @@
     grid.appendChild(d);
   });
 
-  // Projects as a card wallet: stacked cards, one strip of each visible
+  // Projects: grid of pockets, cards fanned out of each pocket, details below
   var list=$('#projList'), P=window.PROJECTS||[];
-  list.style.setProperty('--n',P.length);
-  var cards=[];
-  function setActive(c){var ai=cards.indexOf(c);cards.forEach(function(x,j){x.classList.toggle('active',x===c);x.style.setProperty('--shift',(ai>=0&&j>ai)?'240px':'0px')})}
   P.forEach(function(p,i){
-    var el=document.createElement('article');el.className='pcard t'+(i%3);el.tabIndex=0;
-    el.style.setProperty('--i',i);el.style.setProperty('--lift',Math.min(i*72,112)+'px');
-    var strip=document.createElement('div');strip.className='strip';
-    var n=document.createElement('span');n.className='no';n.textContent=String(i+1).padStart(2,'0');
+    var el=document.createElement('article');el.className='ptile reveal';
+    var pocket=document.createElement('div');pocket.className='pocket';
+    var tags=(p.tags||[]).slice(0,3);while(tags.length<3)tags.push(['Code','Demo','Build'][tags.length]);
+    tags.forEach(function(t,k){
+      var c=document.createElement('div');c.className='pc c'+(k+1);
+      var lb=document.createElement('span');lb.textContent=t;c.appendChild(lb);
+      c.insertAdjacentHTML('beforeend','<i></i><i></i><i class="s"></i>');
+      pocket.appendChild(c);
+    });
+    var fr=document.createElement('div');fr.className='front';
+    fr.innerHTML='<span class="no"></span><span class="pk"></span>';
+    fr.querySelector('.no').textContent=String(i+1).padStart(2,'0');
+    pocket.appendChild(fr);
+    var info=document.createElement('div');info.className='pinfo';
     var h=document.createElement('h3');h.textContent=p.title;
-    var arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='\u2197';
-    strip.append(n,h,arrow);
-    var face=document.createElement('div');face.className='face';
     var d=document.createElement('p');d.textContent=p.desc;
     var t=document.createElement('div');t.className='tags';
     (p.tags||[]).forEach(function(x){var sp=document.createElement('span');sp.textContent=x;t.appendChild(sp)});
     var l=document.createElement('div');l.className='pl';
     if(p.live){var a1=document.createElement('a');a1.href=p.live;a1.target='_blank';a1.rel='noopener';a1.textContent='Live \u2197';l.appendChild(a1)}
-    if(p.code){var c=document.createElement('a');c.href=p.code;c.target='_blank';c.rel='noopener';c.textContent='Code \u2197';l.appendChild(c)}
-    var stamp=document.createElement('div');stamp.className='stamp';stamp.textContent='AD';
-    face.append(d,t,l,stamp);
-    el.append(strip,face);list.appendChild(el);cards.push(el);
-    el.addEventListener('mouseenter',function(){setActive(el)});
-    el.addEventListener('focus',function(){setActive(el)});
-    el.addEventListener('click',function(e){if(e.target.closest('a'))return;setActive(el.classList.contains('active')?null:el)});
-    el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(el.classList.contains('active')?null:el)}});
+    if(p.code){var c2=document.createElement('a');c2.href=p.code;c2.target='_blank';c2.rel='noopener';c2.textContent='Code \u2197';l.appendChild(c2)}
+    info.append(h,d,t,l);
+    el.append(pocket,info);list.appendChild(el);
   });
-  list.addEventListener('mouseleave',function(){setActive(null)});
 
   // Reveal + counters
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
