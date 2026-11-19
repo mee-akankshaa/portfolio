@@ -276,20 +276,19 @@
     '<rect x="58" y="150" width="21" height="74" rx="9" fill="'+K+'"/><rect x="81" y="150" width="21" height="74" rx="9" fill="'+K+'"/>'+
     '<ellipse cx="68" cy="228" rx="14" ry="6.5" fill="'+W+'"/><ellipse cx="92" cy="228" rx="14" ry="6.5" fill="'+W+'"/>'+
     '<path d="M50 86 Q80 74 110 86 L114 158 Q80 166 46 158Z" fill="'+R+'"/>'+
-    arm('M54 92 L44 130 L50 148')+arm('M106 92 L116 130 L110 148')+
-    '<g class="lap"><rect x="46" y="104" width="68" height="42" rx="4" fill="'+W+'"/><circle cx="80" cy="125" r="5" fill="'+K+'"/><rect x="42" y="146" width="76" height="5" rx="2.5" fill="'+K+'"/></g>'+
-    '<circle cx="50" cy="148" r="6" fill="'+W+'"/><circle cx="110" cy="148" r="6" fill="'+W+'"/>'+
+    arm('M54 92 L46 132 L47 152')+'<circle cx="47" cy="156" r="6.5" fill="'+W+'"/>'+
+    '<g class="wave">'+arm('M106 92 L130 64 L138 38')+'<circle cx="139" cy="32" r="7" fill="'+W+'"/></g>'+
     '<g class="ghead"><path d="M54 50 C48 10 112 10 106 50 L112 98 L98 72 C92 54 68 54 62 72 L48 98Z" fill="'+K+'"/>'+
     '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+
-    '<circle cx="72" cy="50" r="2.2" fill="'+K+'" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="'+K+'" stroke="none"/><path d="M73 59 Q80 65 87 59" fill="none" stroke-width="2.5"/>'+HP+'</g></g>'+
+    '<circle cx="72" cy="50" r="2.2" fill="'+K+'" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="'+K+'" stroke="none"/><path d="M72 57 Q80 69 88 57Z" fill="'+K+'"/>'+HP+'</g></g>'+
     '<text class="note n1" x="118" y="30" font-size="16" stroke="none" fill="'+K+'">♪</text><text class="note n2" x="30" y="34" font-size="14" stroke="none" fill="'+K+'">♫</text>';
-  host.innerHTML='<svg viewBox="0 0 240 262" role="img" aria-hidden="true">'+
+  host.innerHTML='<svg viewBox="0 28 240 234" role="img" aria-hidden="true">'+
     '<g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
     '<ellipse cx="120" cy="240" rx="70" ry="6" fill="rgba(255,255,255,.14)" stroke="none"/>'+
     '<g transform="translate(40 12)"><g class="hg-stand">'+stand+'</g><g class="hg-sit fig s3">'+sit+'</g></g></g></svg>';
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce){host.classList.add('sitting');return;}
-  setTimeout(function(){host.classList.add('sitting')},2600);
+  setTimeout(function(){host.classList.add('sitting')},3200);
   // sit down again whenever the page is back at the top after being scrolled away
   var away=false;addEventListener('scroll',function(){
     if(scrollY>innerHeight*.5)away=true;
