@@ -397,19 +397,20 @@
     }
   });
 
-  // 5) send: FormSubmit (free, static-site friendly) emails the filled data to TO; mailto as fallback
+  // 5) send: Web3Forms (free, static-site friendly) emails the filled data to TO; mailto as fallback
   form.addEventListener('submit',function(e){
     e.preventDefault();
     if(form.querySelector('[name=_honey]').value)return;            // bot
     if(!form.checkValidity()){form.reportValidity();return}
     var data={};new FormData(form).forEach(function(v,k){data[k]=String(v).trim()});
-    data._subject='Portfolio enquiry from '+data.name;
+    var subject='Portfolio enquiry from '+data.name;
+    var payload={access_key:'9713f563-5309-4b64-89b4-16ed7cf086b9',subject:subject,from_name:'Portfolio contact form',name:data.name,phone:data.phone,email:data.email,city:data.city||'-',message:data.message||'-',botcheck:''};
     var go=form.querySelector('button[type=submit]');go.disabled=true;go.textContent='Sending...';msg.textContent='';
     function fail(){
       var body='Name: '+data.name+'\nPhone: '+data.phone+'\nEmail: '+data.email+'\nCity: '+(data.city||'-')+'\nNote: '+(data.message||'-');
-      msg.innerHTML='Could not send right now. <a href="mailto:'+TO+'?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body)+'">Send it from your email app</a> instead.';
+      msg.innerHTML='Could not send right now. <a href="mailto:'+TO+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)+'">Send it from your email app</a> instead.';
     }
-    fetch('https://formsubmit.co/ajax/'+TO,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
+    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json().then(function(j){return r.ok&&String(j.success)==='true'})})
       .then(function(good){
         if(good){okTxt.textContent='Thanks '+data.name.split(' ')[0]+', your details have been sent. I will get back to you soon.';ok.hidden=false;form.reset()}
