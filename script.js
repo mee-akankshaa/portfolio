@@ -70,6 +70,7 @@
     big.style.opacity=1-clamp((p-0.15)/0.3,0,1);
     big.style.transform='translate(-50%,-50%) scale('+(1-a*0.35)+')';
     ml.style.opacity=mr.style.opacity=hint.style.opacity=1-clamp(p/0.2,0,1);
+    var hg=document.getElementById('heroGirl');if(hg){hg.style.opacity=1-clamp((p-.08)/.25,0,1);hg.style.transform='translate(-50%,'+(p*60)+'px)'}
     hi.style.opacity=b; hi.style.transform='translateY('+(1-b)*40+'px)';
     photo.style.transform='translateY('+(1-b)*70+'px)';
     document.getElementById('progress').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%';
@@ -219,6 +220,7 @@
       '<g class="cap"><path d="M58 24 L58 38 Q80 50 102 38 L102 24Z" fill="'+K+'"/><polygon points="80,2 134,20 80,38 26,20" fill="'+K+'"/><path d="M80 20 L124 24 L124 50" fill="none" stroke="'+R+'" stroke-width="3"/><circle cx="124" cy="54" r="5" fill="'+R+'"/></g>'+
       '<circle class="cf f1" cx="30" cy="40" r="4" fill="'+R+'" stroke="none"/><rect class="cf f2" x="140" y="90" width="8" height="5" fill="'+K+'" stroke="none"/><circle class="cf f3" cx="20" cy="110" r="3" fill="'+K+'" stroke="none"/>'}
   };
+  window.EDU_G=G;
   var SC={1:.58,2:.68,3:.8,4:.9};
   function sketch(stage){
     var s=SC[stage], extra='';
@@ -260,4 +262,37 @@
     setStage(best);
   }
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+})();
+
+/* Hero girl: stands first, then sits cross-legged with a laptop, headphones on */
+(function(){
+  var host=document.getElementById('heroGirl');
+  if(!host||!window.EDU_G)return;
+  var K='#111',W='#fff',R='#e11d2e';
+  function arm(d){return '<path d="'+d+'" stroke="'+K+'" stroke-width="15" fill="none"/><path d="'+d+'" stroke="'+R+'" stroke-width="10.5" fill="none"/>'}
+  var HP='<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke-width="5"/><rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="'+K+'"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="'+K+'"/>';
+  var sit=window.EDU_G[3]().replace('</g><text class="cd c1"',HP+'</g><text class="cd c1"');
+  var stand='<g class="gbody">'+
+    '<rect x="58" y="150" width="21" height="74" rx="9" fill="'+K+'"/><rect x="81" y="150" width="21" height="74" rx="9" fill="'+K+'"/>'+
+    '<ellipse cx="68" cy="228" rx="14" ry="6.5" fill="'+W+'"/><ellipse cx="92" cy="228" rx="14" ry="6.5" fill="'+W+'"/>'+
+    '<path d="M50 86 Q80 74 110 86 L114 158 Q80 166 46 158Z" fill="'+R+'"/>'+
+    arm('M54 92 L44 130 L50 148')+arm('M106 92 L116 130 L110 148')+
+    '<g class="lap"><rect x="46" y="104" width="68" height="42" rx="4" fill="'+W+'"/><circle cx="80" cy="125" r="5" fill="'+K+'"/><rect x="42" y="146" width="76" height="5" rx="2.5" fill="'+K+'"/></g>'+
+    '<circle cx="50" cy="148" r="6" fill="'+W+'"/><circle cx="110" cy="148" r="6" fill="'+W+'"/>'+
+    '<g class="ghead"><path d="M54 50 C48 10 112 10 106 50 L112 98 L98 72 C92 54 68 54 62 72 L48 98Z" fill="'+K+'"/>'+
+    '<circle cx="80" cy="48" r="23" fill="'+W+'"/><path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="'+K+'"/>'+
+    '<circle cx="72" cy="50" r="2.2" fill="'+K+'" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="'+K+'" stroke="none"/><path d="M73 59 Q80 65 87 59" fill="none" stroke-width="2.5"/>'+HP+'</g></g>'+
+    '<text class="note n1" x="118" y="30" font-size="16" stroke="none" fill="'+K+'">♪</text><text class="note n2" x="30" y="34" font-size="14" stroke="none" fill="'+K+'">♫</text>';
+  host.innerHTML='<svg viewBox="0 0 240 262" role="img" aria-hidden="true">'+
+    '<g stroke="'+K+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
+    '<ellipse cx="120" cy="240" rx="70" ry="6" fill="rgba(255,255,255,.14)" stroke="none"/>'+
+    '<g transform="translate(40 12)"><g class="hg-stand">'+stand+'</g><g class="hg-sit fig s3">'+sit+'</g></g></g></svg>';
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){host.classList.add('sitting');return;}
+  setTimeout(function(){host.classList.add('sitting')},2600);
+  // sit down again whenever the page is back at the top after being scrolled away
+  var away=false;addEventListener('scroll',function(){
+    if(scrollY>innerHeight*.5)away=true;
+    else if(away&&scrollY<20){away=false;host.classList.remove('sitting');setTimeout(function(){host.classList.add('sitting')},2000)}
+  },{passive:true});
 })();
