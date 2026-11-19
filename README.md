@@ -2,7 +2,7 @@
 
 A fast, animated personal portfolio website built with plain HTML, CSS and JavaScript. No frameworks, no build step.
 
-**Live demo:** _add your deployed link here_
+**Live demo:** https://mee-akankshaa.github.io/portfolio/
 
 ## Objective
 
