@@ -24,22 +24,36 @@
     grid.appendChild(d);
   });
 
-  // Projects (from projects.js)
-  var list=$('#projList');
-  (window.PROJECTS||[]).forEach(function(p,i){
-    var el=document.createElement('article');el.className='proj reveal';
-    var n=document.createElement('div');n.className='no';n.textContent=String(i+1).padStart(2,'0');
-    var b=document.createElement('div');
+  // Projects as a card wallet: stacked cards, one strip of each visible
+  var list=$('#projList'), P=window.PROJECTS||[];
+  list.style.setProperty('--n',P.length);
+  var cards=[];
+  function setActive(c){cards.forEach(function(x){x.classList.toggle('active',x===c)})}
+  P.forEach(function(p,i){
+    var el=document.createElement('article');el.className='pcard t'+(i%3);el.tabIndex=0;
+    el.style.setProperty('--i',i);el.style.setProperty('--lift',Math.min(i*72,112)+'px');
+    var strip=document.createElement('div');strip.className='strip';
+    var n=document.createElement('span');n.className='no';n.textContent=String(i+1).padStart(2,'0');
     var h=document.createElement('h3');h.textContent=p.title;
+    var arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='\u2197';
+    strip.append(n,h,arrow);
+    var face=document.createElement('div');face.className='face';
     var d=document.createElement('p');d.textContent=p.desc;
     var t=document.createElement('div');t.className='tags';
-    (p.tags||[]).forEach(function(x){var s=document.createElement('span');s.textContent=x;t.appendChild(s)});
-    b.append(h,d,t);
+    (p.tags||[]).forEach(function(x){var sp=document.createElement('span');sp.textContent=x;t.appendChild(sp)});
     var l=document.createElement('div');l.className='pl';
-    if(p.live){var a=document.createElement('a');a.href=p.live;a.target='_blank';a.rel='noopener';a.textContent='Live ↗';l.appendChild(a)}
-    if(p.code){var c=document.createElement('a');c.href=p.code;c.target='_blank';c.rel='noopener';c.textContent='Code ↗';l.appendChild(c)}
-    el.append(n,b,l);list.appendChild(el);
+    if(p.live){var a1=document.createElement('a');a1.href=p.live;a1.target='_blank';a1.rel='noopener';a1.textContent='Live \u2197';l.appendChild(a1)}
+    if(p.code){var c=document.createElement('a');c.href=p.code;c.target='_blank';c.rel='noopener';c.textContent='Code \u2197';l.appendChild(c)}
+    var stamp=document.createElement('div');stamp.className='stamp';stamp.textContent='AD';
+    face.append(d,t,l,stamp);
+    el.append(strip,face);list.appendChild(el);cards.push(el);
+    el.addEventListener('mouseenter',function(){setActive(el)});
+    el.addEventListener('focus',function(){setActive(el)});
+    el.addEventListener('click',function(e){if(e.target.closest('a'))return;setActive(el.classList.contains('active')?null:el)});
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();setActive(el.classList.contains('active')?null:el)}});
   });
+  list.addEventListener('mouseleave',function(){setActive(null)});
+  if(cards.length)cards[0].classList.add('active');
 
   // Reveal + counters
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
@@ -66,25 +80,61 @@
   if(reduce){big.style.display='none';hi.style.opacity=1;}
   else{addEventListener('scroll',frame,{passive:true});addEventListener('resize',frame);frame();}
 
-  // Footer crowd: illustrated people (SVG, line style)
-  var crowd=$('#crowd'), W=innerWidth;
-  var hairs=['M-24 -2 C-24 -34 24 -34 24 -2 C14 -18 -14 -18 -24 -2Z','M-26 4 C-30 -40 30 -40 26 4 C20 -22 -20 -22 -26 4Z','M-22 -6 C-18 -38 18 -38 22 -6 L26 18 L18 4 C8 -14 -8 -14 -18 4 L-26 18Z','M-24 -4 C-20 -36 20 -36 24 -4 C12 -14 -12 -14 -24 -4Z M-6 -34 L0 -44 L6 -34Z'];
-  var fills=['#111','#fff','#d9d9d9','#444','#fff','#111','#bdbdbd'];
-  function person(){
-    var s=Math.random(), hair=hairs[(Math.random()*hairs.length)|0], body=fills[(Math.random()*fills.length)|0];
-    var hf=Math.random()<.5?'#111':'#fff', glasses=Math.random()<.35, smile=Math.random()<.7;
-    var d=document.createElement('div');d.className='person';
-    var w=Math.round(78+s*52);d.style.width=w+'px';d.style.setProperty('--d',(2+Math.random()*1.8).toFixed(2)+'s');d.style.setProperty('--dl',(-Math.random()*3).toFixed(2)+'s');d.style.setProperty('--r',((Math.random()*10-5)).toFixed(1)+'deg');
-    d.innerHTML='<svg viewBox="-60 -60 120 150"><g stroke="#111" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
-      '<path d="M-50 90 C-50 36 -30 22 0 22 C30 22 50 36 50 90Z" fill="'+body+'"/>'+
-      '<circle cx="0" cy="-6" r="24" fill="#fff"/>'+
-      '<path d="'+hair+'" fill="'+hf+'" transform="translate(0,-8)"/>'+
-      '<circle cx="-8" cy="-4" r="2.2" fill="#111" stroke="none"/><circle cx="8" cy="-4" r="2.2" fill="#111" stroke="none"/>'+
-      (glasses?'<circle cx="-8" cy="-4" r="6.5" fill="none" stroke-width="2"/><circle cx="8" cy="-4" r="6.5" fill="none" stroke-width="2"/><path d="M-1.5 -4h3" stroke-width="2"/>':'')+
-      (smile?'<path d="M-8 8 Q0 16 8 8" fill="none" stroke-width="2.5"/>':'<path d="M-6 10h12" fill="none" stroke-width="2.5"/>')+
-      '</g></svg>';
+  // Footer: sketched walkers + a girl with laptop, headphones and bag (all line-art SVG)
+  var wrap=document.querySelector('.crowd-wrap'), crowd=$('#crowd');
+  var BW=['#111','#fff'];
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function walker(){
+    var shirt=BW[(Math.random()*2)|0], pants=shirt==='#111'?'#fff':BW[(Math.random()*2)|0], hair=Math.random()<.8?'#111':'#fff';
+    var hairs=['M31 28 C28 2 72 2 69 28 C60 14 40 14 31 28Z','M29 34 C24 -2 76 -2 71 34 C66 18 34 18 29 34Z','M31 30 C30 4 70 4 69 30 L73 52 L64 34 C58 20 42 20 36 34L27 52Z','M30 26 C34 8 66 8 70 26 L66 14 L50 8 L34 14Z'];
+    var hp=hairs[(Math.random()*hairs.length)|0], bag=Math.random()<.5, gl=Math.random()<.3, sm=Math.random()<.7;
+    var d=document.createElement('div');d.className='walker';
+    var left=Math.random()<.5, h=rnd(44,60), dur=rnd(16,34);
+    d.style.height=h+'%';d.style.bottom=rnd(-2,14).toFixed(1)+'%';
+    d.style.setProperty('--t',dur.toFixed(1)+'s');d.style.setProperty('--dl',(-Math.random()*dur).toFixed(1)+'s');
+    d.style.setProperty('--sp',rnd(.55,.9).toFixed(2)+'s');
+    d.classList.add(left?'wl':'wr');
+    d.innerHTML='<svg viewBox="0 0 100 210" style="'+(left?'transform:scaleX(-1)':'')+'"><g stroke="#111" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
+      '<g class="wbody">'+(bag?'<rect x="24" y="58" width="52" height="56" rx="10" fill="#111"/>':'')+
+      '<g class="lg l1"><rect x="36" y="112" width="14" height="78" rx="7" fill="'+pants+'"/><ellipse cx="44" cy="193" rx="12" ry="6" fill="#fff"/></g>'+
+      '<g class="lg l2"><rect x="50" y="112" width="14" height="78" rx="7" fill="'+pants+'"/><ellipse cx="58" cy="193" rx="12" ry="6" fill="#fff"/></g>'+
+      '<path d="M30 56 Q50 48 70 56 L74 118 Q50 126 26 118Z" fill="'+shirt+'"/>'+
+      '<g class="ar a1"><rect x="19" y="54" width="11" height="58" rx="5.5" fill="'+shirt+'"/><circle cx="24.5" cy="114" r="5.5" fill="#fff"/></g>'+
+      '<g class="ar a2"><rect x="70" y="54" width="11" height="58" rx="5.5" fill="'+shirt+'"/><circle cx="75.5" cy="114" r="5.5" fill="#fff"/></g>'+
+      '<circle cx="50" cy="32" r="19" fill="#fff"/><path d="'+hp+'" fill="'+hair+'"/>'+
+      '<circle cx="43" cy="34" r="1.9" fill="#111" stroke="none"/><circle cx="57" cy="34" r="1.9" fill="#111" stroke="none"/>'+
+      (gl?'<circle cx="43" cy="34" r="5.5" fill="none" stroke-width="2"/><circle cx="57" cy="34" r="5.5" fill="none" stroke-width="2"/><path d="M48.5 34h3" stroke-width="2"/>':'')+
+      (sm?'<path d="M43 44 Q50 50 57 44" fill="none" stroke-width="2.4"/>':'<path d="M44 46h12" stroke-width="2.4"/>')+
+      '</g></g></svg>';
     return d;
   }
-  var count=Math.max(7,Math.ceil(W/78)+2);
-  for(var i=0;i<count;i++)crowd.appendChild(person());
+  var N=Math.max(6,Math.min(12,Math.round(innerWidth/120)));
+  for(var i=0;i<N;i++)crowd.appendChild(walker());
+
+  var girl=document.createElement('div');girl.className='girl';
+  girl.innerHTML='<svg viewBox="0 0 160 240"><g stroke="#111" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">'+
+   '<g class="gbody">'+
+   '<rect x="38" y="80" width="84" height="84" rx="14" fill="#111"/>'+                       /* backpack */
+   '<rect x="58" y="150" width="21" height="74" rx="9" fill="#111"/><rect x="81" y="150" width="21" height="74" rx="9" fill="#111"/>'+ /* black jeans */
+   '<ellipse cx="68" cy="228" rx="14" ry="6.5" fill="#fff"/><ellipse cx="92" cy="228" rx="14" ry="6.5" fill="#fff"/>'+
+   '<path d="M50 86 Q80 74 110 86 L114 158 Q80 166 46 158Z" fill="#e11d2e"/>'+                 /* red top */
+   '<path d="M64 80 L60 142 M96 80 L100 142" stroke="#111" stroke-width="7" fill="none"/>'+     /* bag straps */
+   '<path d="M54 92 L44 130 L50 148" stroke="#111" stroke-width="15" fill="none"/><path d="M54 92 L44 130 L50 148" stroke="#e11d2e" stroke-width="10.5" fill="none"/>'+
+   '<path d="M106 92 L116 130 L110 148" stroke="#111" stroke-width="15" fill="none"/><path d="M106 92 L116 130 L110 148" stroke="#e11d2e" stroke-width="10.5" fill="none"/>'+
+   '<g class="lap"><rect x="46" y="104" width="68" height="42" rx="4" fill="#fff"/><circle cx="80" cy="125" r="5" fill="#111"/><rect x="42" y="146" width="76" height="5" rx="2.5" fill="#111"/></g>'+
+   '<circle cx="50" cy="148" r="6" fill="#fff"/><circle cx="110" cy="148" r="6" fill="#fff"/>'+
+   '<g class="ghead">'+
+     '<path d="M54 50 C48 10 112 10 106 50 L112 98 L98 72 C92 54 68 54 62 72 L48 98Z" fill="#111"/>'+  /* long hair */
+     '<circle cx="80" cy="48" r="23" fill="#fff"/>'+
+     '<path d="M58 44 C60 22 100 22 102 44 C92 34 68 34 58 44Z" fill="#111"/>'+
+     '<circle cx="72" cy="50" r="2.2" fill="#111" stroke="none"/><circle cx="88" cy="50" r="2.2" fill="#111" stroke="none"/>'+
+     '<path d="M73 59 Q80 65 87 59" fill="none" stroke-width="2.5"/>'+
+     '<path d="M55 46 C52 8 108 8 105 46" fill="none" stroke-width="5"/>'+                       /* headphone band */
+     '<rect class="cup" x="46" y="38" width="12" height="22" rx="6" fill="#111"/><rect class="cup" x="102" y="38" width="12" height="22" rx="6" fill="#111"/>'+
+   '</g></g>'+
+   '<text class="note n1" x="118" y="30" font-size="16" stroke="none" fill="#111">♪</text>'+
+   '<text class="note n2" x="30" y="34" font-size="14" stroke="none" fill="#111">♫</text>'+
+   '</g></svg>';
+  wrap.appendChild(girl);
+  if(reduce){document.querySelectorAll('.walker').forEach(function(w,i){w.style.animation='none';w.style.left=(8+i*(84/N))+'%'})}
 })();

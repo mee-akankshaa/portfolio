@@ -14,8 +14,8 @@ Black-and-white, editorial-style portfolio of **Akanksha Dubey**, an AI-assisted
 
 - Scroll-driven intro: a huge "Software Engineer" title that shrinks into the hero
 - Black-and-white editorial design
-- Animated footer: an illustrated crowd (generated SVG) that bobs and reacts on hover
-- Projects, skills, experience, education and certificates rendered from simple data
+- Animated footer: sketch-style people walking across the scene, with a girl (red top, black jeans, laptop, headphones, backpack) animated in place
+- Projects shown as a stack of wallet-style cards, one pulled out at a time (list lives in projects.js)
 - Scroll-reveal animations, animated counters and scroll progress bar
 - Fully responsive layout
 - Respects `prefers-reduced-motion` for users who want less animation
